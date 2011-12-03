@@ -1,3 +1,9 @@
-This is some project euler code I have worked on, and a first foray for me into using github. Some code is snipped from the discussion forums (this is how I learned to stop writing like Hal Abelson and love the loop macro). Some pieces in CL, some in Python, early portions in C.
+This is some project euler code I have worked on, and a first foray for me into using github. Some code is snipped from the discussion forums 
+(this is how I learned to stop writing like Hal Abelson and love the loop macro). 
+Some pieces in CL, some in Python, early portions in C.
+
+Typically, my original method will not have a letter appended. So
+p10.lisp is something I wrote, while p12a.lisp is something I read in the forum.
+
 
 

@@ -1,23 +1,31 @@
-This is some project euler code I have worked on, and a first foray for me into using github. Some code is snipped from the discussion forums 
-(this is how I learned to stop writing like Hal Abelson and love the loop macro). 
+This is some project euler code I have worked on, 
+and a first foray for me into using github. Some code
+ is snipped from the discussion forums 
+(this is how I learned to stop writing like Hal Abelson 
+and love the loop macro). 
 Some pieces in CL, some in Python, early portions in C.
 
-Typically, my original method will not have a letter appended. So
-p10.lisp is something I wrote, while p12a.lisp is something I read in the forum.
+Typically, my original method will not have a letter appended. 
+So p10.lisp is something I wrote, while p12a.lisp is something 
+I read in the forum.
 
-I started working these in C as being the first tool I learned to use fairly well.
-When I found that overflow became a significant issue in many of the 
-PE type problems, I moved to lisp. I did a handful in Python mainly as a way
-of getting a feel for the language (required language for the first year programming
+I started working these in C as being the first tool I learned 
+to use fairly well. When I found that overflow became a significant 
+issue in many of the  PE type problems, I moved to lisp. I did a 
+handful in Python mainly as a way of getting a feel for the 
+language (required language for the first year programming
 sequence at UIC's math department.) 
 
-Really, apart from the snippets culled from the forums, the code I wrote here
-is pretty embarassing. The first problem I found was that I was missing
-all the important abstractions in CL, and just using do for everything.
+Really, apart from the snippets culled from the forums, 
+the code I wrote here is pretty embarassing. The first 
+problem I found was that I was missing all the important 
+abstractions in CL, and just using do for everything.
 
-I think I also had the uphill struggle of writing significant portions of the lisp
-code while reading SICP and the little lisper, so there's a fair number of 
-'schemisms' scattered throughout, when CL had library facilities to do
-just what I wanted. Imagine how long and troublesome the language is if you
+I think I also had the uphill struggle of writing significant 
+portions of the lisp code while reading SICP and the 
+little lisper, so there's a fair number of 
+'schemisms' scattered throughout, when CL had library 
+facilities to do just what I wanted. Imagine how long and 
+troublesome the language is if you
  don't have remove-if and remove-if-not as builtins...
 

@@ -18,7 +18,8 @@
 ;; Find the value of d < 1000 for which 1/d contains the longest recurring cycle in its decimal fraction part.
 
 
-;; lengths are not right (off by a few) but should be within
+;; lengths are not right (off by a few) but should be within tolerance
+;; (whoever heard of solving a problem badly?)
 ;; some reciprocal digit lists are just plain wrong (990 is a great example)
 (defun reciprocal (number)
   ;; (floor (/ 10.0 number)) looks promising

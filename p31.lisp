@@ -56,3 +56,6 @@ How many different ways can £2 be made using any number of coins?
     ((= kinds-of-coins 6) 50)
     ((= kinds-of-coins 7) 100)
     ((= kinds-of-coins 8) 200)))
+
+(defun p31 ()
+  (make-change 200))

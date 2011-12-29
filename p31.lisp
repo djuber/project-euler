@@ -11,7 +11,7 @@ It is possible to make £2 in the following way:
 How many different ways can £2 be made using any number of coins?
 |#
 
-;; exercise 1.1.4 from SICP gives a head start here
+;; exercise 1.14 from SICP gives a head start here
 ;; (define (count-change amount)
 ;;    (cc amount 5))
 
@@ -31,7 +31,26 @@ How many different ways can £2 be made using any number of coins?
 ;;          ((= kinds-of-coins 4) 25)
 ;;          ((= kinds-of-coins 5) 50)))
 
-(defvar coins (list 200 100 50 20 10 5 2 1))
 
 (defun make-change (amount)
-  
+  (cc amount 8))
+
+(defun cc (amount kinds-of-coins)
+  (cond 
+    ((= amount 0) 1)
+    ((or (< amount 0)
+	(= kinds-of-coins 0)) 0)
+    (t  (+ (cc amount (- kinds-of-coins 1))
+	   (cc (- amount (first-denomination kinds-of-coins))
+	       kinds-of-coins)))))
+
+(defun first-denomination (kinds-of-coins)
+  (cond 
+    ((= kinds-of-coins 1) 1)
+    ((= kinds-of-coins 2) 2)
+    ((= kinds-of-coins 3) 5)
+    ((= kinds-of-coins 4) 10)
+    ((= kinds-of-coins 5) 20)
+    ((= kinds-of-coins 6) 50)
+    ((= kinds-of-coins 7) 100)
+    ((= kinds-of-coins 8) 200)))

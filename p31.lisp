@@ -11,7 +11,7 @@ It is possible to make £2 in the following way:
 How many different ways can £2 be made using any number of coins?
 |#
 
-;; exercise 1.1.4 from SICP gives a head start here
+;; exercise 1.14 from SICP gives a head start here
 ;; (define (count-change amount)
 ;;    (cc amount 5))
 

@@ -1,3 +1,6 @@
+;; find the least value of n for which p(n) is divisible by one million.
+;; this could be faster by taking mod 1000000 each time, rather than calculating whole values.
+
 (defun p78 ()
   (let ((numbers (numbparts 100000 :all t)))
     (let ((zeros (map 'simple-vector (lambda (x) (mod x 1000000)) numbers)))
@@ -5,6 +8,7 @@
 	   when (= 0 (aref zeros i))
 	   collect (cons i (aref numbers i))))))
 
+;; general partition function p(n), adapted from R partitions package below
 (defun numbparts (n &key (all nil))
   (when (< n 2) (return-from numbparts 1))
   (let ((p (make-array (1+ n) :element-type 'integer :initial-element 0))

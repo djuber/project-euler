@@ -12,6 +12,8 @@ How many different ways can £2 be made using any number of coins?
 |#
 
 ;; exercise 1.14 from SICP gives a head start here
+;; retrieved from http://www.billthelizard.com/2009/12/sicp-exercise-114-counting-change.html
+
 ;; (define (count-change amount)
 ;;    (cc amount 5))
 

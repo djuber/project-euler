@@ -1,3 +1,5 @@
+;; peatey
+
 (defconstant coins #(200 100 50 20 10 5 2 1))
 (defun euler31 (&optional (goal 200) (coin 0) (ways 0))
   (if (= 7 coin)

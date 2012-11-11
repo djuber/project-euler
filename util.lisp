@@ -1,5 +1,6 @@
 
 ;; Roger Corman's Sieve function from Corman Lisp examples
+;; this causes a heap exhaustion for large enough n
 (defun sieve5 (n)
   "Returns a list of all primes from 2 to n"
   (declare (fixnum n) (optimize (speed 3) (safety 0)))
@@ -19,11 +20,64 @@
 		     (declare (fixnum j inc))
 		     (setf (sbit a j) 1))))))))
 
-(defun digits (n &optional (lst ()))
+;; let's save the easy ones, less than 10M
+(defparameter *small-primes* (sieve5 (expt 10 7)))
+;; and let's not count these over and over again
+(defparameter *size-of-small-primes* (length *small-primes*))
+
+;; now we can include an index function
+(defun prime-at (n)
+  "return the nth prime number"
+  (when 
+      (and 
+       (< n *size-of-small-primes*)
+       (integerp n)
+       (plusp n))
+    (elt *small-primes* (1- n))))
+
+(defun prime-index (p)
+  (1+ (position p *small-primes*)))
+
+(defun next-prime (p)
+  (let ((idx (prime-index p)))
+    (when idx
+      (prime-at (1+ idx)))))
+
+;; alternate version:
+(defun next-prime (p)
+  (let ((list (member p *small-primes*)))
+    (when list
+      (second list))))
+
+(defun prime-after (n)
+  (car (remove-if (lambda (x) (< x n)) *small-primes*)))
+
+(defun prime-before (n)
+  (car (last (remove-if (lambda (x) (> x n)) *small-primes*))))
+
+
+(defun previous-prime (p)
+  (let ((idx (prime-index p)))
+    (when idx
+      (prime-at (1- idx)))))
+
+(defun forward-prime-gap (p)
+  (let ((idx (prime-index p)))
+    (when idx
+      (- (next-prime p) p))))
+(defun reverse-prime-gap (p)
+  (let ((idx (prime-index p)))
+    (when idx
+      (- p (previous-prime p)))))
+
+(defun prime-gap (n)
+  (- (prime-at (1+ n)) (prime-at n)))
+
+(defun digits (n &key (list ()) (base 10))
   "break an integer into a list of its digits"
   (if (zerop n)
-      lst
-      (digits (floor (/ n 10)) (cons (mod n 10) lst))))
+      list
+      (digits (floor (/ n base)) :list (cons (mod n base) list) :base base)))
   
 (defun palindrome-list (lst)
   "are all elements the same when reversed?"
@@ -314,8 +368,11 @@ Note that N is assumed prime."
 		(incf prime-idx))))
     (nreverse primes-list)))
 
-
-
+(defun primep (n)
+  (and (integerp n)
+       (> n 1)
+       (not (cdr (factor n)))))
+#|
 (defun primep (n)
   "Return T if N is prime."
   (cond ((not (integerp n)) nil)
@@ -346,7 +403,7 @@ Note that N is assumed prime."
 		       (integerp (/ n h)))
 	      do (setf divisor-found t))))))
 
-
+|#
 
 (defparameter char-digits
   '((#\0 0)
@@ -408,9 +465,6 @@ Note that N is assumed prime."
 	     (list n)
 	     (cons test  (factor (/ n test))))))))
 
-
-
-      
 (defun string-to-number (s)
   "grabs all digits in string, skipping whitespace and alpha"
   (let ((l (length s))
@@ -444,6 +498,8 @@ Note that N is assumed prime."
       nil
       (cons n (naturals-up-to (1- n)))))
 
+
+;; this seems redundant given (every pred list)
 (defun forall (list func)
   "every element in list is func?"
   (if (null list)
@@ -466,7 +522,8 @@ Note that N is assumed prime."
 (defun prime-difference (n d)
   "print primes below n with difference d"
 	   (let ((primes (sieve5 n))
-		 (pairs nil))
+		 ;;(pairs nil)
+		 )
 	     (do ((i 0 (1+ i)))
 		 ((null primes))
 	       (let ((num (first primes)))

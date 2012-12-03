@@ -21,7 +21,7 @@ For which value of p ≤ 1000, is the number of solutions maximised?
 
 (defun triples (&optional (perimeter 1000))
   "generate all pythagorean triples with perimeter upto perimeter."
-  (let ((mn-limit (isqrt perimeter)))
+  (let ((mn-limit (isqrt perimeter))) ; what is the right upper bound here?
   (loop for n from 1 to (1- mn-limit) append
        (loop for m from (1+ n) to mn-limit by 2
 	    append 

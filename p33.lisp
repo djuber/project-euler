@@ -15,6 +15,7 @@
 ;; find the value of the denominator.
 
 (defun two-digit-ratio (n1 n2 d1 d2)
+  "generate a ratio from the two top digits and the two bottom digits"
   (/ 
    (+ (* 10 n1) n2)
    (+ (* 10 d1) d2)))
@@ -36,17 +37,16 @@
 		   (loop for d2 from 1 to 9 do
 			(let ((rat (two-digit-ratio n1 n2 d1 d2)))
 			  (cond 
-			    ((> rat 1))
-			    ((and (= n1 d1) (= n2 d2)))
+			    ((>= rat 1)) ; do nothing
 			    ((= n1 d2) 
 			     (when (= rat (/ n2 d1))
 			       (push (list n1 n2 d1 d2) result)))
-			    ((= n1 d1)
-			     (when (= rat (/ n2 d2))
-			       (push (list n1 n2 d1 d2) result)))
-			    ((= n2 d2)
-			     (when (= rat (/ n1 d1))
-			       (push (list n1 n2 d1 d2) result)))
+			    ;; ((= n1 d1) ;; i think this case is impossible
+			    ;;  (when (= rat (/ n2 d2))
+			    ;;    (push (list n1 n2 d1 d2) result)))
+			    ;; ((= n2 d2) ;; this case is impossible
+			    ;;  (when (= rat (/ n1 d1))
+			    ;;    (push (list n1 n2 d1 d2) result)))
 			    ((= n2 d1)
 			     (when (= rat (/ n1 d2))
 			       (push (list n1 n2 d1 d2) result)))))))))

@@ -14,30 +14,43 @@
 ;; If the product of these four fractions is given in its lowest common terms,
 ;; find the value of the denominator.
 
-(defun find-curious ()
-  (let ((result ()))
-    (do ((numer 1 (1+ numer)))
-	((= numer 10))
-      (do ((denom (1+ numer) (1+ denom)))
-	  ((= denom 10))
-	(do ((numer2 1 (1+ numer2)))
-	    ((= numer2 10))
-	  (do ((denom2 1 (1+ denom2)))
-	      ((= denom2 10))
-	    (if (curious-p numer numer2 denom denom2)
-		(push (list numer numer2 denom denom2) result))))))
-    result))
+(defun two-digit-ratio (n1 n2 d1 d2)
+  (/ 
+   (+ (* 10 n1) n2)
+   (+ (* 10 d1) d2)))
 
-(defun curious-p (numer numer2 denom denom2)
-  (if (or (char= #\0 (elt (format nil "~a" numer) 1))
-	  (char= #\0 (elt (format nil "~a" denom) 1)))
-      nil
-      (if (and (not (and (zerop (mod numer 11))
-			 (zerop (mod denom 11))))
-	       (= (/ numer denom)
-		  (/ (mod numer 10)
-		     (mod denom 10))))
-	  T
-	  nil)))
-      
-    
+
+(defun p33 ()
+  "yield the denominator of the product of the four desired fractions"
+  (denominator  
+   (reduce #'* 
+	   (mapcar (lambda (f) (apply #'two-digit-ratio f)) 
+		   (curious-fractions)))))
+
+(defun curious-fractions ()
+  "return the four two digit curious fractions between zero and one"
+  (let (result)
+    (loop for n1 from 1 to 9 do
+	 (loop for n2 from 1 to 9 do
+	      (loop for d1 from 1 to 9 do
+		   (loop for d2 from 1 to 9 do
+			(let ((rat (two-digit-ratio n1 n2 d1 d2)))
+			  (cond 
+			    ((> rat 1))
+			    ((and (= n1 d1) (= n2 d2)))
+			    ((= n1 d2) 
+			     (when (= rat (/ n2 d1))
+			       (push (list n1 n2 d1 d2) result)))
+			    ((= n1 d1)
+			     (when (= rat (/ n2 d2))
+			       (push (list n1 n2 d1 d2) result)))
+			    ((= n2 d2)
+			     (when (= rat (/ n1 d1))
+			       (push (list n1 n2 d1 d2) result)))
+			    ((= n2 d1)
+			     (when (= rat (/ n1 d2))
+			       (push (list n1 n2 d1 d2) result)))))))))
+    result))
+			   
+
+

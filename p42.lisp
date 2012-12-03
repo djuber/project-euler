@@ -12,6 +12,7 @@ By converting each letter in a word to a number corresponding to its alphabetica
 Using words.txt (right click and 'Save Link/Target As...'), a 16K text file containing nearly two-thousand common English words, how many are triangle words?
 |#
 
+;; to-numbers returns 0-25, we need 1-26, and to add them
 (defun sum-for-word (string)
   (reduce #'+ (mapcar #'1+ (to-numbers string))))
 
@@ -22,17 +23,22 @@ Using words.txt (right click and 'Save Link/Target As...'), a 16K text file cont
        ((or (= n sum) (> sum n))
 	(if (= n sum) t nil))))
 
-(defun slurp-strings ()
-  (with-open-file (stream "~/src/project-euler/words.txt") 
-    (let ((result nil))
-      (until (string-equal (first result) "YOURSELF")  ; need to learn to deal with eof
-	(push (first (read-delimited-list #\, stream)) result))
-      (push "YOUTH" result))))
+(defun slurp-strings (file)
+  "grab strings from a comma or space delimited text file"
+  (let ((*readtable* (copy-readtable)))
+    (set-syntax-from-char #\, #\Space)
+    (with-open-file (stream file)
+      (loop for word = (read stream nil)
+	   while word
+	   collect word))))
 
-(defun count-triangular-words ()
-  (loop for i in (slurp-strings)
+(defun count-triangular-words (list)
+  (loop 
+     for i in list
      when (triangle-p (sum-for-word i))
-       count i))
+     count i))
 
 (defun p42 ()
-  (count-triangular-words))
+  (count-triangular-words (slurp-strings "~/src/project-euler/words.txt")))
+
+

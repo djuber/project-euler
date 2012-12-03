@@ -21,7 +21,13 @@
 
 (let ((count 0)
       (last-triangle 0))
-  (declare (type fixnum count) (type fixnum last-triangle) (optimize (speed 3) (safety 0)))
+  (declare 
+   (type fixnum count) 
+   (type fixnum last-triangle) 
+   (optimize (speed 3) (safety 0)))
+  (defun reset-triangle ()
+    (setf count 0)
+    (setf last-triangle 0))
   (defun last-triangle ()
     last-triangle)
   (defun next-triangle ()
@@ -35,15 +41,14 @@
 	((> div n))
       (if (= 0 (mod n div))
 	  (incf result)))
-    the fixnum result))
+    (the fixnum result)))
 
 (defun p12 (number)
   (declare (type fixnum number) (optimize (speed 3) (safety 0)))
+  (reset-triangle)
   (do ((triangle (next-triangle) (next-triangle)))
       ((> (the fixnum (divisors triangle)) number))
     (declare (type fixnum triangle))
     ())
   (last-triangle))
-
-
 

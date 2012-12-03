@@ -14,8 +14,8 @@ char *pascalrow(int row, int rows, char *buffer)
     /*  int pad = rows/2; //number of cells to pad, skipping for now */
     for(j=0; j <= row; j++)
     {
-        sprintf(number, "%d ", binomial((unsigned long) row, (unsigned long) j));
-        strcat(buffer, number);
+      sprintf(number, "%d ", binomial((unsigned long) row, (unsigned long) j));
+      strcat(buffer, number);
     }
     strcat(buffer, "\n");
     return buffer;
@@ -23,18 +23,18 @@ char *pascalrow(int row, int rows, char *buffer)
 
 char *clearbuffer(char *buffer, int count)
 {
-    int i;
-    for(i = 0; i < count; i++)
-        buffer[i]=0;
-    return buffer;
+  int i;
+  for(i = 0; i < count; i++)
+    buffer[i]=0;
+  return buffer;
 }
 
 void pascal(int n)
 {
-    char store[1024];
-    char *buf = store;
-    int i;
-    for (i=0; i<=n; i++)
-        printf("%s", pascalrow(i, n, clearbuffer(buf,1024)));
-    return;
+  char store[1024];
+  char *buf = store;
+  int i;
+  for (i=0; i<=n; i++)
+    printf("%s", pascalrow(i, n, clearbuffer(buf,1024)));
+  return;
 }

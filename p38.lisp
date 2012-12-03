@@ -25,4 +25,25 @@
     (and (= (length dl) 9)
 	 (forall '(1 2 3 4 5 6 7 8 9) (lambda (n) (member n dl))))))
 
+;; need to know how many times to make this concatenation
+(defun needed-iterations (n)
+  (loop for i from 1 to 10
+       when (< 123456789 (concat-products n i) 987654321)
+       return (concat-products n i)))
 
+(defun concat-products (n limit)
+  (let ((products (loop for i from 1 to limit
+		     collect (* n i))))
+    (let ((p* (format nil "~{~a~}" (map 'list #'prin1-to-string products))))
+      (string-to-number p*))))
+
+(defun p38 ()
+  (let ((largest 1))
+    (do ((n 10000 (1- n)))
+	((= n 10) largest) ; let this finish
+      (let ((number (needed-iterations n)))
+	(when (and 
+	       number
+	       (pandigital-p number)
+	       (> number largest))
+	  (setf largest number))))))

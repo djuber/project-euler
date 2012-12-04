@@ -1,8 +1,7 @@
 This is some project euler code I have worked on, 
 and a first foray for me into using github. Some code
- is snipped from the discussion forums 
-(this is how I learned to stop writing like Hal Abelson 
-and love the loop macro). 
+ is snipped from the discussion forums.
+
 Some pieces in CL, some in Python, early portions in C.
 
 Typically, my original method will not have a letter appended. 
@@ -34,3 +33,4 @@ Update : 12/4/2012
 during a slight confusion of git tree manipulation, all the date/timestamps have been reset. It's unfortunate, but the commit history still preserves the important part.
 
 
+Note : the file util.lisp contains general purpose functions which are referenced in files but not perhaps explicitly loaded. My working environment typically has at least number-theory.lisp (from the number-theory repo) loaded, and often util.lisp.

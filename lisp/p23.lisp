@@ -1,0 +1,66 @@
+(defun p23 (limit)
+  (apply '+ (not-abundant-sums limit)))
+
+(defun not-abundant-sums (range)
+  (let ((lst (abundant-sums range))
+	(result ()))
+    (do ((i 0 (1+ i)))
+	((= i (length lst)))
+      (do ((least (nth i lst) (nth i lst))
+	   (n (if (zerop i) 1 (1+ (nth (1- i) lst))) (1+ n)))
+	  ((= n least))
+	(push n result)))
+    (do ((n (1+ (car (last lst))) (1+ n)))
+	((> n range))
+      (push n result))
+    (sort result '<)))
+
+(defun abundant-sums (range)
+  (let* ((nums (abundant-nums range))
+	 (numl (length nums))
+	(lst ()))
+    (do ((i 0 (1+ i)))
+	((= i numl))
+      (do ((j i (1+ j)))
+	  ((= j numl))
+	(let ((sum (+ (nth i nums)
+		      (nth j nums))))
+	  (if (< sum (1+ range))
+	      (push sum lst)))))
+    (sort (remove-duplicates lst) '<)))
+
+
+(defun abundant-nums (range)
+  (let ((lst ()))
+    (do ((n 12 (1+ n)))
+	((> n range))
+      (if (abundant n)
+	  (push n lst)))
+    lst))
+   
+
+(defun abundant (n)
+  "true when the divisors of n sum to greater than n"
+  (if (> (sum-of-divisors n) n)
+      T
+      nil))
+
+(defun sum-of-divisors (n)
+  (let ((s 0))
+    (do ((test 1 (1+ test)))
+	((= test n))
+      (if (zerop (mod n test))
+	  (incf s test)))
+    s))
+
+(defun proper-factor (n)
+  "return a list of numbers less than n that divide n "
+  (if (< n 1)
+      ()
+      (let ((result '()))
+	(do ((test 1 (1+ test)))
+	    ((= test n))
+	  (if (zerop (mod n test))
+	      (setf result (cons test result))))
+	result)))
+

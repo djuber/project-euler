@@ -12,3 +12,38 @@
 
 ;; What is the smallest odd composite that cannot be written as the
 ;; sum of a prime and twice a square?
+
+;; abort if we've gone too far
+(defun member-sorted (n list)
+  "is n in list, when list is a sorted increasing sequence of integers"
+  (dolist (x list)
+    (when (= x n)
+      (return t))
+    (when (> x n)
+      (return nil))))
+
+(defun upto-sorted (n list)
+  "collect elements of list less than or equal to n"
+  (let (result)
+    (dolist (x list)
+      (if (<= x n)
+	(push x result)
+	(return (nreverse result))))))
+
+(defun odd-composites (limit)
+  (loop for i from 9 to limit by 2
+     when (not (member-sorted i *small-primes*))
+       collect i))
+
+(defun squares (index-limit)
+  (loop for i from 1 to index-limit collect (square i)))
+
+(defun sum-of-prime-and-twice-a-square (n)
+  (dolist (x (squares (isqrt n)))
+    (when (member-sorted (- n (* 2 x)) *small-primes*) 
+	(return T))))
+    
+(defun p46 ()
+  (first (loop for c in (odd-composites 10000)
+	    when (not (sum-of-prime-and-twice-a-square c))
+	      collect c)))

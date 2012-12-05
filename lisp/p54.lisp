@@ -241,14 +241,15 @@ poker code follows
 
 
 (defun detect-two-pair (hand)
-  (multiple-value-bind (pair? card1)
+  (multiple-value-bind (pair? card1 card1+)
       (detect-pair hand)
     (if pair?
-	(multiple-value-bind (two-pair? card2)
+	(multiple-value-bind (two-pair? card2 card2+)
 	    (detect-pair 
 	     (remove-if (lambda (card) (eql (card-value card) (number->value card1))) hand))
+	  (declare (ignorable card2))
 	  (if two-pair?
-	      (values T (max card1 card2))
+	      (values T (max card1+ card2+))
 	      (values nil nil)))
 	(values nil nil))))
 

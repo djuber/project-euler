@@ -173,6 +173,9 @@ poker code follows
 ;;; detect-two-pair answers the higher of the two pairs
 
 
+;;;; the number assigned by pair is incomplete. Two pair is fine.
+;;;; pair has the limitation that if a pair is tied and the high card is tied, it doesn't fall through to the second high card. This doesn't happen in the text file
+
 (defun detect-straight (hand)
   "determine if the hand is a straight."
   (let* ((v (hand->values hand))
@@ -241,7 +244,12 @@ poker code follows
 
 
 (defun detect-two-pair (hand)
-  (multiple-value-bind (pair? card1 card1+)
+  "this may be the most complicated case,
+one : there must be two distinct pairs.
+two : it's possible for both hands to have the same two pairs
+so simply looking for the high card is wrong, the correct ordering is high-pair, low-pair, high-card
+"
+  (multiple-value-bind (pair? card1)
       (detect-pair hand)
     (if pair?
 	(multiple-value-bind (two-pair? card2 card2+)
@@ -249,7 +257,9 @@ poker code follows
 	     (remove-if (lambda (card) (eql (card-value card) (number->value card1))) hand))
 	  (declare (ignorable card2))
 	  (if two-pair?
-	      (values T (max card1+ card2+))
+	      ;; encoding : integer part - high pair , fractions of .02 to .14 : low pair
+	      ;; fractions of .0002 to .0015 : high card
+	      (values T (+ (max card1 card2) (* (min card1 card2) 1/100) (* (- card2+ card2) 1/10000)))
 	      (values nil nil)))
 	(values nil nil))))
 
@@ -266,7 +276,7 @@ poker code follows
 (defparameter +four-of-a-kind-offset+ 105)
 (defparameter +straight-flush-offset+ 120)
 
-
+;; this has got to be the least attractive thing I've written in a while
 (defun rank-hand (hand)
   "give a numerical value to hand, such that higher numbers win"
   (multiple-value-bind (sf high)

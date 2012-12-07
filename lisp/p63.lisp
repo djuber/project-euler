@@ -23,5 +23,9 @@ How many n-digit positive integers exist which are also an nth power?
        collect pow)))
 
 (defun p63 ()
-  (loop for n from 1 to 100
+  (loop for n from 1 to 21 ; magic number found by experiment
      summing (length (nth-powers-with-n-digits n))))
+
+;; answer 49
+
+

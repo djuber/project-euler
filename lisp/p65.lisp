@@ -18,6 +18,9 @@ Find the sum of digits in the numerator of the 100th convergent of the continued
 	((zerop (mod n 3)) (* 2 (/ n 3)))
 	(t 1)))
 
+
+;; so I want to use this with nth-convergent to achieve the same
+;; as nth-convergent-of-e
 (defun e-sequence-to (n)
   (loop for i from 1 to n collect 
        (nth-term-for-e-sequence i)))
@@ -33,9 +36,10 @@ Find the sum of digits in the numerator of the 100th convergent of the continued
 	  (fraction (/ 1 term)
 		       (/ 1 (+  term fraction))))
 	 ((null (cdr terms)) (+ term fraction))
+	  ;; debug statement here
 	  (format t "term ~a fraction ~a~%" term fraction))))
 
-;; this is
+;; this is working
 (defun nth-convergent-of-e (n)
   (if (= n 1) 
        2

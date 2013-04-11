@@ -78,6 +78,7 @@
   (if (zerop n)
       list
       (digits (floor (/ n base)) :list (cons (mod n base) list) :base base)))
+
   
 (defun palindrome-list (lst)
   "are all elements the same when reversed?"
@@ -96,6 +97,9 @@
   "the nth triangle number"
   (/ (* n (+ n 1)) 2))
 
+(defun square (n)
+  "the nth square number"
+  (* n n))
  
 (defun pentagonal (n)
   "The nth pentagonal number"

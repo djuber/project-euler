@@ -73,13 +73,28 @@
 (defun prime-gap (n)
   (- (prime-at (1+ n)) (prime-at n)))
 
-(defun digits (n &key (list ()) (base 10))
-  "break an integer into a list of its digits"
-  (if (zerop n)
-      list
-      (digits (floor (/ n base)) :list (cons (mod n base) list) :base base)))
+;; (defun digits (n &key (list ()) (base 10))
+;;   "break an integer into a list of its digits"
+;;   (if (zerop n)
+;;       list
+;;       (digits (floor (/ n base)) :list (cons (mod n base) list) :base base)))
 
-  
+(defun to-string (object)
+  "do whatever we ought to do"
+  (format nil "~a" object))
+
+(defun digits (n &key (base 10))
+  (loop for i across (to-string n)
+       collect (digit-char-p i base)))
+
+
+;; this is horribly tuned to numbers.
+#| ; this seems more general, but would break this code
+(defun palindrome (seq &key (test #'equal))
+  (funcall test seq 
+      (reverse seq))) 
+|#  
+
 (defun palindrome-list (lst)
   "are all elements the same when reversed?"
   (if (null (cdr lst))

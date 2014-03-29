@@ -1,5 +1,5 @@
-def isEven(n):
-    return((n%2)==0)
+from isEven import isEven
+
 
 def collatz(n):
     count = 0
@@ -17,7 +17,7 @@ def collatz(n):
         return -1
 
 def problem14(upper):
-#identify starting point of longest collatz path below uppper
+    """identify starting point of longest collatz path below uppper"""
     n=1
     max = 0
     maxn = 0

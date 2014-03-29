@@ -7,9 +7,7 @@ Find the sum of all the multiples of 3 or 5 below 1000.
 
 """
 
-def multiplesList(number, upto):
-    return [x for x in range(number, upto , number)]
-
+from multiplesList import multiplesList
 
 def euler1():
     threes = multiplesList(3, 1000)

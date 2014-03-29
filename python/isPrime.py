@@ -40,14 +40,16 @@ def prime(n):           #return the nth prime
                 
         return c
 
-def factor(n):                  #print the factors of n (some mess in here!)
+def factor(n):                  # (some mess in here!)
+        """print the factors of n"""
         for x in range(2,math.floor(math.sqrt(n)+1)):
                 if n % x == 0:
                         print(n,'eq',x,'*', n//x)
                         n=n//x
                         factor(n)
                         
-def sumofprimes(n):             #print the sum of primes below n
+def sumofprimes(n):             
+        """ print the sum of primes below n"""
         c = 0
         for x in range(2,n):
                 if(isPrime(x)):

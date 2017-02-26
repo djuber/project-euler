@@ -28,23 +28,26 @@
 ;; now we can include an index function
 (defun prime-at (n)
   "return the nth prime number"
-  (when 
-      (and 
+  (when
+      (and
        (< n *size-of-small-primes*)
        (integerp n)
        (plusp n))
     (elt *small-primes* (1- n))))
 
 (defun prime-index (p)
+  "given p, find i such that (= p (prime-at i))"
   (1+ (position p *small-primes*)))
 
-(defun next-prime (p)
-  (let ((idx (prime-index p)))
-    (when idx
-      (prime-at (1+ idx)))))
+;; innefficient, this involves on call to find/position, and one more to nth.
+;; (defun next-prime (p)
+;;   (let ((idx (prime-index p)))
+;;     (when idx
+;;       (prime-at (1+ idx)))))
 
 ;; alternate version:
 (defun next-prime (p)
+  "give the prime following p, i.e. (= 17 (next-prime 13))"
   (let ((list (member p *small-primes*)))
     (when list
       (second list))))
@@ -91,9 +94,9 @@
 ;; this is horribly tuned to numbers.
 #| ; this seems more general, but would break this code
 (defun palindrome (seq &key (test #'equal))
-  (funcall test seq 
-      (reverse seq))) 
-|#  
+  (funcall test seq
+      (reverse seq)))
+|#
 
 (defun palindrome-list (lst)
   "are all elements the same when reversed?"
@@ -102,7 +105,7 @@
       (if (equal (the fixnum (first lst)) (the fixnum (car (last lst))))
 	  (palindrome-list (subseq lst 1 (- (length lst) 1)))
 	  nil)))
-     
+
 (defun palindrome (n)
   (if (palindrome-list (digits n))
       T
@@ -115,11 +118,11 @@
 (defun square (n)
   "the nth square number"
   (* n n))
- 
+
 (defun pentagonal (n)
   "The nth pentagonal number"
   (/ (* n (1- (* 3 n))) 2))
- 
+
 (defun hexagonal (n)
   "the nth hexagonal number"
   (* n (1- (* 2 n))))
@@ -176,7 +179,7 @@
   (reduce #'* (mapcar #'(lambda (i)
                           (1+ (count i lst)))
                       (remove-duplicates lst))))
- 
+
 (defun prime-factor (n)
   (when (> n 1)
     (let ((limit (1+ (isqrt n))))
@@ -230,7 +233,7 @@
     (do ((index 0 (1+ index)))
 	((= index (length line)))
 	(if (= (base26-value (char line index)) 0)
-	    (progn 
+	    (progn
 	      (setf lst (cons (subseq line first index) lst))
 	      (setf first (1+ index)))))
     (setf lst (cons (subseq line first) lst))
@@ -240,7 +243,7 @@
 (defun alphabetize (line)
   (sort (split-strings line) 'string<))
 
-	
+
 (defun between (n lower upper)
   "is n in interval [lower,upper]"
   (and (>= n lower)
@@ -271,8 +274,8 @@
 
 (defun find-divisors (x)
   (let ((divs nil))
-    (loop for i from 1 to (sqrt x) 
-       do (when (zerop (mod x i)) 
+    (loop for i from 1 to (sqrt x)
+       do (when (zerop (mod x i))
 	    (push i divs)
 	    (let ((d (/ x i)))
 	      (unless (or (= i 1) (= i d))
@@ -288,17 +291,17 @@
                   (return-from abundant-sum-odd? t))))
   nil)
 
- 
+
 (defun get-even-abundant-numbers (n)
   (loop for i from 12 to n by 2
         when (abundant-number? i)
         collect i))
- 
+
 (defun get-odd-abundant-numbers (n)
   (loop for i from 945 to n by 2
         when (abundant-number? i)
         collect i))
- 
+
 (defun abundant-number? (n)
   (> (sum-of-divisors n) n))
 
@@ -367,7 +370,7 @@ Note that N is assumed prime."
 
 (defun erat (n)
   "Return a list of prime numbers less than N using the Sieve of Eratosthenes."
-  (let ((primes-list (list))  
+  (let ((primes-list (list))
       ;; The zeroth and first elements of primep table are ignored.
 	(primep (make-array n :initial-element t))
 	(prime-idx 2))
@@ -496,7 +499,7 @@ Note that N is assumed prime."
 			  (* result 10)))))
     result))
 
-(defun square (x) (* x x))
+
 
 (defun sum-of-squares (lst)
   (reduce (lambda (x y) (+ x y)) (mapcar 'square lst)))
@@ -546,7 +549,7 @@ Note that N is assumed prime."
 	     (do ((i 0 (1+ i)))
 		 ((null primes))
 	       (let ((num (first primes)))
-		 (if (and (not (null (second primes))) 
+		 (if (and (not (null (second primes)))
 			       (= d (- (second primes) num)))
 		     ;;(push num pairs)
 		     (format t "~a ~a~%" num (+ num d)))
@@ -570,11 +573,11 @@ Note that N is assumed prime."
   (when (< n 2) (return-from numbparts 1))
   (let ((p (make-array (1+ n) :element-type 'integer :initial-element 0))
 	(pp (make-array (1+ n) :element-type 'integer :initial-element 0)))
-    (labels 
+    (labels
 	((outerloop (i)
 	   (let ((s 1) ;; sign
 		 (f 5) ;; first difference
-		 (r 2)) 
+		 (r 2))
 	     ;; while loop 1
 	     (loop until (< i r)
 		do (progn
